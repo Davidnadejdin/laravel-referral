@@ -1,0 +1,13 @@
+{
+    "name": "davidnadejdin/laravel-referral",
+    "description": "Referral system for Laravel",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "davidnadejdin",
+            "email": "davidnadejdin@gmail.com"
+        }
+    ],
+    "require": {}
+}
