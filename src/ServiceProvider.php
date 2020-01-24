@@ -6,14 +6,11 @@ use Illuminate\Support\ServiceProvider as BaseProvider;
 
 class ServiceProvider extends BaseProvider
 {
-    /**
-     * Register services.
-     *
-     * @return void
-     */
     public function register()
     {
-
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/referral.php', 'referral'
+        );
     }
 
     /**
@@ -28,5 +25,9 @@ class ServiceProvider extends BaseProvider
         $this->publishes([
             __DIR__.'/../database/migrations/' => database_path('migrations')
         ], 'migrations');
+
+        $this->publishes([
+            __DIR__.'/../config/referral.php' => config_path('referral.php'),
+        ]);
     }
 }
