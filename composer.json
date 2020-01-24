@@ -9,5 +9,21 @@
             "email": "davidnadejdin@gmail.com"
         }
     ],
-    "require": {}
+    "autoload": {
+        "psr-4": {
+            "Davidnadejdin\\LaravelReferral\\": "src/"
+        }
+    },
+    "require": {
+        "illuminate/support": "^5|^6",
+        "illuminate/database": "^5|^6",
+        "illuminate/http": "^5|^6"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Davidnadejdin\\LaravelReferral\\ServiceProvider"
+            ]
+        }
+    }
 }
