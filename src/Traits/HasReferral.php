@@ -2,6 +2,8 @@
 
 namespace Davidnadejdin\LaravelReferral\Referral;
 
+use Davidnadejdin\LaravelReferral\Models\Referral;
+
 trait HasReferral
 {
     /**
@@ -25,7 +27,7 @@ trait HasReferral
      */
     public function generateReferral()
     {
-        if ($this->referral) {
+        if ($this->referral()->exists()) {
             $this->referral()->delete();
         }
 
@@ -34,10 +36,18 @@ trait HasReferral
 
     protected static function bootHasReferral(): void
     {
-        if (config('referral.auto_create')) {
-            static::created(function ($model) {
+        static::created(function ($model) {
+            /** @var \Davidnadejdin\LaravelReferral\Referral\HasReferral $model */
+            if (config('referral.auto_create')) {
                 $model->referral()->create();
-            });
-        }
+            }
+
+            if (isset($_COOKIE['referral']) and Referral::query()->where('code', '=', $_COOKIE['referral'])->exists()) {
+                $referral = Referral::query()->where('code', '=', $_COOKIE['referral'])->first();
+
+                $model->referredBy()->associate($referral);
+                $model->save();
+            }
+        });
     }
 }
