@@ -2,6 +2,7 @@
 
 namespace Davidnadejdin\LaravelReferral\Models;
 
+use Davidnadejdin\LaravelReferral\Models\Referral\Click;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -27,6 +28,14 @@ class Referral extends Model
     public function referredUsers()
     {
         return $this->hasMany(config('auth.providers.users.model'), 'referral_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function clicks()
+    {
+        return $this->hasMany(Click::class, 'referral_id');
     }
 
     /**

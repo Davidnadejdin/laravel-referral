@@ -45,7 +45,9 @@ trait HasReferral
             $code = null;
             switch (config('referral.driver')) {
                 case 'cookie':
-                    $code = $_COOKIE['referral'];
+                    if (isset($_COOKIE['referral'])) {
+                        $code = $_COOKIE['referral'];
+                    }
                     break;
             }
 
