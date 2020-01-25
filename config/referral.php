@@ -6,4 +6,7 @@ return [
     'code_length' => 5,
 
     'auto_create' => false,
+
+    // cookie
+    'driver' => 'cookie',
 ];

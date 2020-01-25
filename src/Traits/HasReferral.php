@@ -42,8 +42,15 @@ trait HasReferral
                 $model->referral()->create();
             }
 
-            if (isset($_COOKIE['referral']) and Referral::query()->where('code', '=', $_COOKIE['referral'])->exists()) {
-                $referral = Referral::query()->where('code', '=', $_COOKIE['referral'])->first();
+            $code = null;
+            switch (config('referral.driver')) {
+                case 'cookie':
+                    $code = $_COOKIE['referral'];
+                    break;
+            }
+
+            if (Referral::query()->where('code', '=', $code)->exists()) {
+                $referral = Referral::query()->where('code', '=', $code)->first();
 
                 $model->referredBy()->associate($referral);
                 $model->save();
