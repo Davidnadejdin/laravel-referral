@@ -16,14 +16,30 @@ class Referral
      */
     public function handle($request, Closure $next)
     {
+        $code = $request->query('ref');
+
+        switch (config('referral.driver')) {
+            case 'cookie':
+                if ($request->hasCookie('referral')) {
+                    $code = $_COOKIE['referral'];
+                }
+                break;
+        }
+
+        $referral = ReferralModel::query()->where('code', '=', $code)->first();
+
+        if ($referral) {
+            $referral->clicks()->updateOrCreate([
+                'ip' => $request->ip(),
+            ]);
+        }
+
         switch (config('referral.driver')) {
             case 'cookie':
                 if ($request->hasCookie('referral')) {
                     return $next($request);
-                }
-                if (($ref = $request->query('ref')) && ReferralModel::query()
-                        ->where('code', '=', $ref)->exists()) {
-                    return redirect($request->fullUrl())->withCookie(cookie()->forever('referral', $ref));
+                } else if ($referral) {
+                    return redirect($request->fullUrl())->withCookie(cookie()->forever('referral', $code));
                 }
                 break;
         }

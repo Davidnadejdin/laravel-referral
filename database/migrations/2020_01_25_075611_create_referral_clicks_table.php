@@ -19,6 +19,11 @@ class CreateReferralClicksTable extends Migration
             $table->string('ip');
             $table->unsignedBigInteger('referral_id');
 
+            $table->unique([
+                'ip',
+                'referral_id',
+            ]);
+
             $table->foreign('referral_id')->references('id')
                 ->on(config('referral.model')::getModel()->getTable());
 
