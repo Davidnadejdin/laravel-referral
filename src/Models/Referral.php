@@ -39,6 +39,16 @@ class Referral extends Model
     }
 
     /**
+     * @return boolean
+     */
+    public function regenerateReferralCode()
+    {
+        return $this->update([
+            'code' => self::generateReferralCode(),
+        ]) ;
+    }
+
+    /**
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @param $referral
      * @return mixed
@@ -51,7 +61,7 @@ class Referral extends Model
     /**
      * @return string
      */
-    protected static function generateReferral()
+    protected static function generateReferralCode()
     {
         do {
             $referral = Str::random(config('referral.code_length'));
@@ -65,7 +75,7 @@ class Referral extends Model
         parent::boot();
 
         static::creating(function (self $model) {
-            $model->code = self::generateReferral();
+            $model->code = self::generateReferralCode();
         });
     }
 }
