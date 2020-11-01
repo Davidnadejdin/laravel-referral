@@ -1,6 +1,6 @@
 <?php
 
-namespace Davidnadejdin\LaravelReferral\Referral;
+namespace Davidnadejdin\LaravelReferral\Traits;
 
 use Davidnadejdin\LaravelReferral\Models\Referral;
 
