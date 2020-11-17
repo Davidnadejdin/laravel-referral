@@ -7,14 +7,9 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateReferralClicksTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
-        Schema::create(Click::getModel()->getTable(), function (Blueprint $table) {
+        Schema::create('referral_clicks', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('ip');
             $table->unsignedBigInteger('referral_id');
@@ -25,19 +20,14 @@ class CreateReferralClicksTable extends Migration
             ]);
 
             $table->foreign('referral_id')->references('id')
-                ->on(config('referral.model')::getModel()->getTable());
+                ->on('referrals');
 
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        Schema::dropIfExists(Click::getModel()->getTable());
+        Schema::dropIfExists('referral_clicks');
     }
 }
