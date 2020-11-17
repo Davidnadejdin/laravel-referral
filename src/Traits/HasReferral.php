@@ -3,6 +3,7 @@
 namespace Davidnadejdin\LaravelReferral\Traits;
 
 use Davidnadejdin\LaravelReferral\Models\Referral;
+use Illuminate\Support\Facades\Request;
 
 trait HasReferral
 {
@@ -34,7 +35,7 @@ trait HasReferral
         return $this->referral()->create();
     }
 
-    protected static function bootHasReferral(): void
+    protected static function bootHasReferral()
     {
         static::created(function ($model) {
             /** @var \Davidnadejdin\LaravelReferral\Referral\HasReferral $model */
@@ -43,10 +44,16 @@ trait HasReferral
             }
 
             $code = null;
+
             switch (config('referral.driver')) {
                 case 'cookie':
                     if (isset($_COOKIE['referral'])) {
                         $code = $_COOKIE['referral'];
+                    }
+                    break;
+                case 'query':
+                    if (Request::query('referral')) {
+                        $code = Request::query('referral');
                     }
                     break;
             }

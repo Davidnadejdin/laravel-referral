@@ -4,16 +4,10 @@ namespace Davidnadejdin\LaravelReferral\Http\Middleware;
 
 use Closure;
 use Davidnadejdin\LaravelReferral\Models\Referral as ReferralModel;
+use Illuminate\Support\Facades\Request;
 
 class Referral
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
     public function handle($request, Closure $next)
     {
         $code = $request->query('ref');
@@ -22,6 +16,11 @@ class Referral
             case 'cookie':
                 if ($request->hasCookie('referral')) {
                     $code = $_COOKIE['referral'];
+                }
+                break;
+            case 'query':
+                if (Request::query('referral')) {
+                    $code = Request::query('referral');
                 }
                 break;
         }

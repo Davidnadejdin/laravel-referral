@@ -7,6 +7,6 @@ return [
 
     'auto_create' => false,
 
-    // cookie
+    // cookie, query
     'driver' => 'cookie',
 ];
