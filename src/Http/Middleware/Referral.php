@@ -10,17 +10,12 @@ class Referral
 {
     public function handle($request, Closure $next)
     {
-        $code = $request->query('ref');
+        $code = $request->query(config('referral.key'));
 
         switch (config('referral.driver')) {
             case 'cookie':
-                if ($request->hasCookie('referral')) {
-                    $code = $_COOKIE['referral'];
-                }
-                break;
-            case 'query':
-                if (Request::query('referral')) {
-                    $code = Request::query('referral');
+                if ($request->hasCookie(config('referral.key'))) {
+                    $code = $_COOKIE[config('referral.key')];
                 }
                 break;
         }
@@ -35,10 +30,10 @@ class Referral
 
         switch (config('referral.driver')) {
             case 'cookie':
-                if ($request->hasCookie('referral')) {
+                if ($request->hasCookie(config('referral.key'))) {
                     return $next($request);
                 } else if ($referral) {
-                    return redirect($request->fullUrl())->withCookie(cookie()->forever('referral', $code));
+                    return redirect($request->fullUrl())->withCookie(cookie()->forever(config('referral.key'), $code));
                 }
                 break;
         }

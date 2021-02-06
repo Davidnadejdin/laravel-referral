@@ -47,13 +47,13 @@ trait HasReferral
 
             switch (config('referral.driver')) {
                 case 'cookie':
-                    if (isset($_COOKIE['referral'])) {
-                        $code = $_COOKIE['referral'];
+                    if (isset($_COOKIE[config('referral.key')])) {
+                        $code = $_COOKIE[config('referral.key')];
                     }
                     break;
                 case 'query':
-                    if (Request::query('referral')) {
-                        $code = Request::query('referral');
+                    if (Request::query(config('referral.key'))) {
+                        $code = Request::query(config('referral.key'));
                     }
                     break;
             }

@@ -9,4 +9,6 @@ return [
 
     // cookie, query
     'driver' => 'cookie',
+
+    'key' => 'referral',
 ];
