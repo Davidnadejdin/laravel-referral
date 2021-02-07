@@ -4,6 +4,7 @@ namespace Davidnadejdin\LaravelReferral\Http\Middleware;
 
 use Closure;
 use Davidnadejdin\LaravelReferral\Models\Referral as ReferralModel;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Request;
 
 class Referral
@@ -15,7 +16,7 @@ class Referral
         switch (config('referral.driver')) {
             case 'cookie':
                 if ($request->hasCookie(config('referral.key'))) {
-                    $code = $_COOKIE[config('referral.key')];
+                    $code = Cookie::get(config('referral.key'));
                 }
                 break;
         }
