@@ -3,6 +3,7 @@
 namespace Davidnadejdin\LaravelReferral\Traits;
 
 use Davidnadejdin\LaravelReferral\Models\Referral;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Request;
 
 trait HasReferral
@@ -47,8 +48,8 @@ trait HasReferral
 
             switch (config('referral.driver')) {
                 case 'cookie':
-                    if (isset($_COOKIE[config('referral.key')])) {
-                        $code = $_COOKIE[config('referral.key')];
+                    if (Cookie::has(config('referral.key'))) {
+                        $code = Cookie::get(config('referral.key'));
                     }
                     break;
                 case 'query':
